@@ -1,0 +1,31 @@
+import time
+import board
+import busio
+import adafruit_veml6075
+
+# Initialize I2C
+i2c = busio.I2C(board.SCL, board.SDA)
+
+# Initialize sensor
+veml = adafruit_veml6075.VEML6075(i2c)
+
+print("VEML6075 UV Sensor Test")
+
+while True:
+    try:
+        # Read values
+        uva = veml.uva
+        uvb = veml.uvb
+        uv_index = veml.uv_index
+
+        # Display values
+        print(f"UVA: {uva:.2f}")
+        print(f"UVB: {uvb:.2f}")
+        print(f"UV Index: {uv_index:.2f}")
+        print("-" * 30)
+
+        time.sleep(2)
+
+    except KeyboardInterrupt:
+        print("Exiting program...")
+        break
