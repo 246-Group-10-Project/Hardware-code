@@ -1,0 +1,24 @@
+import time
+import board
+import busio
+import adafruit_ccs811
+
+# Initialize I2C
+i2c = busio.I2C(board.SCL, board.SDA)
+
+# Initialize CCS811 sensor
+ccs = adafruit_ccs811.CCS811(i2c)
+
+print("Waiting for sensor to be ready...")
+while not ccs.data_ready:
+    time.sleep(0.5)
+
+print("Sensor ready!")
+
+while True:
+    if ccs.data_ready:
+        print("CO2: {} ppm, TVOC: {} ppb".format(ccs.eco2, ccs.tvoc))
+    else:
+        print("Data not ready")
+
+    time.sleep(2)
